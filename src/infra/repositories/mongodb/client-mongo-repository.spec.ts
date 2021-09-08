@@ -32,6 +32,7 @@ describe('ClientMongoRepository', () => {
     const sut = new ClientMongoRepository()
     const client = await sut.loadByCpf('any_cpf')
     expect(client).toBeTruthy()
+    expect(client.id).toBeTruthy()
     expect(client.nome).toBe(clientParams.nome)
     expect(client.cpf).toBe(clientParams.cpf)
     expect(client.dataNascimento).toEqual(clientParams.dataNascimento)
@@ -44,5 +45,27 @@ describe('ClientMongoRepository', () => {
     const sut = new ClientMongoRepository()
     const client = await sut.loadByCpf('any_cpf')
     expect(client).toBeFalsy()
+  })
+
+  test('Garantir que se o add for chamado com os valores correto o cliente seja criado', async () => {
+    clientCollection = await MongoHelper.getCollection('clients')
+    const sut = new ClientMongoRepository()
+    await sut.add({
+      nome: 'any_nome',
+      cpf: 'any_cpf',
+      dataNascimento: new Date('1999-03-23'),
+      rendaFamiliar: 2000
+    })
+    clientCollection = await MongoHelper.getCollection('clients')
+    const client = await clientCollection.findOne({
+      cpf: 'any_cpf'
+    })
+    expect(client).toBeTruthy()
+    expect(client._id).toBeTruthy()
+    expect(client.nome).toBe('any_nome')
+    expect(client.cpf).toBe('any_cpf')
+    expect(client.dataNascimento).toEqual(new Date('1999-03-23'))
+    expect(client.dataCadastro).toBeTruthy()
+    expect(client.rendaFamiliar).toBe(2000)
   })
 })
