@@ -64,4 +64,11 @@ describe('Create Client Service', () => {
     const error = await sut.create(createClient)
     expect(error).toEqual(new Error('Esse CPF já está cadastrado em nosso banco de dados!'))
   })
+
+  test('Garantir que se o loadByCpf retornar uma exceção retornar essa exceção', async () => {
+    const { sut, loadByCPFClientRepository } = makeSut()
+    jest.spyOn(loadByCPFClientRepository, 'loadByCpf').mockRejectedValueOnce(new Error())
+    const promise = sut.create(createClient)
+    await expect(promise).rejects.toThrow()
+  })
 })
