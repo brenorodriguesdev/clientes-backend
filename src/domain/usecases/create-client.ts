@@ -6,5 +6,5 @@ export interface CreateClientModel {
 }
 
 export interface CreateClientUseCase {
-  create: (createCliente: CreateClientModel) => Promise<void>
+  create: (createCliente: CreateClientModel) => Promise<void | Error>
 }
