@@ -58,4 +58,10 @@ describe('Create Client Service', () => {
     await sut.create(createClient)
     expect(loadByCpfSpy).toHaveBeenCalledWith('any_cpf')
   })
+
+  test('Garantir que se o loadByCpf retornar um cliente retornar um Error', async () => {
+    const { sut } = makeSut()
+    const error = await sut.create(createClient)
+    expect(error).toEqual(new Error('Esse CPF já está cadastrado em nosso banco de dados!'))
+  })
 })
