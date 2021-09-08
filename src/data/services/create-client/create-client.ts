@@ -9,7 +9,7 @@ export class CreateClientService implements CreateClientUseCase {
     if (client) {
       return new Error('Esse CPF já está cadastrado em nosso banco de dados!')
     }
-    if (client.dataNascimento > new Date()) {
+    if (createClient.dataNascimento > new Date()) {
       return new Error('Essa Data de Nascimento é inválida!')
     }
     await this.addClientRepository.add(createClient)
