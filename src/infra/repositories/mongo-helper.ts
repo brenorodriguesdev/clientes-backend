@@ -4,7 +4,9 @@ export const MongoHelper = {
   client: null as MongoClient,
 
   async connect (uri: string): Promise<void> {
+    console.log(uri)
     this.client = await MongoClient.connect(uri)
+    console.log(this.client)
   },
 
   async disconnect (): Promise<void> {
@@ -13,10 +15,7 @@ export const MongoHelper = {
   },
 
   async getCollection (name: string): Promise<Collection> {
-    if (!this.client?.isConnected()) {
-      await this.connect(this.uri)
-    }
-    return this.client.db().collection(name)
+    return this.client.db(this.client.dbName).collection(name)
   },
 
   map: (data: any): any => {
