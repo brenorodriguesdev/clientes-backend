@@ -1,4 +1,4 @@
-import { MongoHelper } from '../mongo-helper'
+import { MongoHelper } from './mongo-helper'
 import { Collection } from 'mongodb'
 import { ClientMongoRepository } from './client-mongo-repository'
 
