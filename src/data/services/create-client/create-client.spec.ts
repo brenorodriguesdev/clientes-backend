@@ -71,4 +71,12 @@ describe('Create Client Service', () => {
     const promise = sut.create(createClient)
     await expect(promise).rejects.toThrow()
   })
+
+  test('Garantir que o add seja chamado com os valores corretos', async () => {
+    const { sut, addClientRepository, loadByCPFClientRepository } = makeSut()
+    jest.spyOn(loadByCPFClientRepository, 'loadByCpf').mockResolvedValueOnce(null)
+    const addSpy = jest.spyOn(addClientRepository, 'add')
+    await sut.create(createClient)
+    expect(addSpy).toHaveBeenCalledWith(createClient)
+  })
 })
