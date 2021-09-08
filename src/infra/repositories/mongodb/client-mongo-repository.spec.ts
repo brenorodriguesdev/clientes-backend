@@ -38,4 +38,11 @@ describe('ClientMongoRepository', () => {
     expect(client.dataCadastro).toEqual(clientParams.dataCadastro)
     expect(client.rendaFamiliar).toBe(clientParams.rendaFamiliar)
   })
+
+  test('Garantir que se o loadByCpf for chamado com CPF inexistente retornar cliente', async () => {
+    clientCollection = await MongoHelper.getCollection('clients')
+    const sut = new ClientMongoRepository()
+    const client = await sut.loadByCpf('any_cpf')
+    expect(client).toBeFalsy()
+  })
 })
