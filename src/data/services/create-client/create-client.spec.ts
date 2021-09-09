@@ -87,4 +87,18 @@ describe('Create Client Service', () => {
     const promise = sut.create(createClient)
     await expect(promise).rejects.toThrow()
   })
+
+  test('Garantir que se o create for chamado com uma data de nascimento maior que a data de hoje retornar um Error', async () => {
+    const { sut, loadByCPFClientRepository } = makeSut()
+    jest.spyOn(loadByCPFClientRepository, 'loadByCpf').mockResolvedValueOnce(null)
+    const dataNascimento = new Date()
+    dataNascimento.setFullYear(dataNascimento.getFullYear() + 1)
+    const error = await sut.create({
+      nome: 'any_name',
+      cpf: 'any_cpf',
+      dataNascimento,
+      rendaFamiliar: 1000
+    })
+    expect(error).toEqual(new Error('Essa Data de Nascimento é inválida!'))
+  })
 })
