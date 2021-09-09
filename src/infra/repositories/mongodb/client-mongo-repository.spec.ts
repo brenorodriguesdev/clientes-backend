@@ -13,7 +13,6 @@ const clientParams = {
 
 describe('ClientMongoRepository', () => {
   beforeAll(async () => {
-    console.log(process.env.MONGO_URL)
     await MongoHelper.connect(process.env.MONGO_URL)
   })
 
