@@ -6,7 +6,7 @@ export class LogErrorElasticSearchRepository implements LogErrorRepository {
     await client.index({
       index: 'errors',
       type: 'type_errors',
-      body: stack
+      body: { stack }
     })
   }
 }
