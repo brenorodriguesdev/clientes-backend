@@ -1,5 +1,6 @@
 export class ServerError extends Error {
-  constructor () {
+  constructor (stack: string) {
     super('Tente novamente mais tarde')
+    this.stack = stack
   }
 }

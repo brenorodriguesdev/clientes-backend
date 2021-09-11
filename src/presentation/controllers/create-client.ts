@@ -24,7 +24,7 @@ export class CreateClientController implements Controller {
       }
       return created()
     } catch (error) {
-      return serverError()
+      return serverError(error)
     }
   }
 }

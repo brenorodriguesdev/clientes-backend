@@ -67,7 +67,7 @@ describe('Create Client Controller', () => {
     const { sut, validator } = makeSut()
     jest.spyOn(validator, 'validate').mockImplementationOnce(() => { throw new Error() })
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(serverError())
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 
   test('Garantir que o create seja chamado com os valores correto', async () => {
@@ -89,7 +89,7 @@ describe('Create Client Controller', () => {
     const { sut, createClientUseCase } = makeSut()
     jest.spyOn(createClientUseCase, 'create').mockImplementationOnce(() => { throw new Error() })
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(serverError())
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 
   test('Garantir que se tudo ocorre como esperado retornar um created', async () => {
