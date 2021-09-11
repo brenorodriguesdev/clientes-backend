@@ -2,6 +2,10 @@ import { client } from './client'
 import { LogErrorElasticSearchRepository } from './log-error-elasticsearch-repository'
 
 describe('Log Error ElasticSearch Repository', () => {
+  beforeEach(async () => {
+    client.indices.delete({ index: 'errors' })
+  })
+
   test('Garantir que o index seja chamado com os valores corretos"', async () => {
     const indexSpy = jest.spyOn(client, 'index')
     const sut = new LogErrorElasticSearchRepository()
