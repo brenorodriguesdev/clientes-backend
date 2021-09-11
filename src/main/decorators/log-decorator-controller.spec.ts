@@ -1,7 +1,7 @@
 import { LogErrorRepository } from '../../data/contracts/log-error-repository'
 import { Controller } from '../../presentation/protocols/controller'
 import { HttpRequest, HttpResponse } from '../../presentation/protocols/http'
-import { created } from '../../presentation/protocols/http-helper'
+import { created, serverError } from '../../presentation/protocols/http-helper'
 import { LogDecoratorController } from './log-decorator-controller'
 
 const makeController = (): Controller => {
@@ -60,5 +60,15 @@ describe('Log Decorator Controller', () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(created())
+  })
+
+  test('Garantir que se o controller retornar um httpResponse com statusCode 500 seja chamado o logError com stack correto', async () => {
+    const { sut, controller, logErrorRepository } = makeSut()
+    const error = new Error('error')
+    error.stack = 'stack'
+    jest.spyOn(controller, 'handle').mockResolvedValueOnce(serverError(error))
+    const logErrorSpy = jest.spyOn(logErrorRepository, 'logError')
+    await sut.handle(httpRequest)
+    expect(logErrorSpy).toHaveBeenCalledWith(error.stack)
   })
 })
