@@ -55,4 +55,10 @@ describe('Log Decorator Controller', () => {
     await sut.handle(httpRequest)
     expect(handleSpy).toHaveBeenCalledWith(httpRequest)
   })
+
+  test('Garantir que retorne com o httpResponse correto', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(created())
+  })
 })
